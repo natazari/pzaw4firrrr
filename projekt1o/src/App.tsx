@@ -7,13 +7,13 @@ import frank from "./assets/frankensstein.jpg";
 import merv from "./assets/Merveilles.jpg";
 import park from "./assets/Blackwaterpark.jpg";
 
-interface props{
+interface Film{
   name: string;
   imgsrc: string;
   year: number;
 }
 
-interface propsk{
+interface Ksiazka{
   name: string;
   imgsrc: string;
   year: number;
@@ -34,12 +34,38 @@ interface propsSong{
   len: string;
 }
 
-function Film({name, imgsrc, year}:props ) {
+let movies:Film[] = [
+  {name: "Corpse Bride", imgsrc: bride, year: 2005},
+  {name: "Shrek", imgsrc: shrek, year: 2001},
+  {name: "Dracula", imgsrc: dracula, year: 1931},
+  {name: "Shrek", imgsrc: shrek, year: 2001}
+]
+
+let books:Ksiazka[]= [
+  {name: "Carmilla", imgsrc: carmilla, year: 1872, pages: 160},
+  {name:"The Picture of Dorian Gray", imgsrc: dorian, year: 1891, pages: 268},
+  {name:"Frankenstein", imgsrc: frank, year: 1818, pages: 237}
+]
+
+let albums:propsAlbum[] = [
+  {name: "Merveilles", imgsrc: merv, band: "Malice Mizer", year: 1998, genre: "v-kei", songs:[
+    {name: "De Merveilles", len:"1:07"},
+    {name: "Syunikiss (Nidome no Aitō)", len:"4:14"},
+    {name: "De Merveilles", len:"1:07"}
+  ]},
+  {name: "Blackwater Park", imgsrc: park, band: "Opeth", year: 2001, genre: "progressive metal", songs:[
+    {name: "The Leper Affinity", len:"10:23"},
+    {name: "Bleak", len:"9:15"},
+    {name: "Harvest", len:"5:58"},
+    {name: "The Drapery Falls", len:"10:52"}
+  ]}
+]
+
+function Film({name, imgsrc, year}:Film ) {
 
     return (
     <>
       <div>
-         <hr></hr>
         <img src = {imgsrc}></img>
         <h3>{name}</h3>
         <p>{year}</p>
@@ -49,12 +75,12 @@ function Film({name, imgsrc, year}:props ) {
   )
   }
 
-  function Ksiazka({name, imgsrc, year, pages}:propsk ) {
+  function Ksiazka({name, imgsrc, year, pages}:Ksiazka ) {
 
     return (
     <>
       <div>
-        <hr></hr>
+        
         <img src = {imgsrc}></img>
         <h3>{name}</h3>
         <p>{year}</p>
@@ -69,7 +95,7 @@ function Film({name, imgsrc, year}:props ) {
     return (
     <>
       <div>
-        <hr></hr>
+
         <img src = {imgsrc}></img>
         <h3>{name}</h3>
         <h3>{band}</h3>
@@ -79,13 +105,15 @@ function Film({name, imgsrc, year}:props ) {
 
         <h4>Lista utworów:</h4>
 
-        <ol>
+        <table>
           {songs.map((song, index)=>(
-            <li key={index}>
+            
+            <tr key={index}>
               <Piosenka name={song.name} len={song.len}/>
-            </li>
+            
+            </tr>
           ))}
-        </ol>
+        </table>
         
       </div>
     </>
@@ -96,11 +124,12 @@ function Film({name, imgsrc, year}:props ) {
 
     return (
     <>
-      <div>
-        <h5>{name}</h5>
-        <p>{len}</p>
+     
+        <td><h5>{name}</h5></td>
+        
+     <td>  <p>{len}</p></td> 
        
-      </div>
+      
     </>
   )
   }
@@ -115,37 +144,36 @@ function App() {
 
   return (
     <>
-      <div><table><h1>Filmy</h1>
-      <Film name="Corpse Bride" imgsrc={bride} year={2005} />
-      <Film name="Shrek" imgsrc={shrek} year={2001} />
-      <Film name="Dracula" imgsrc={dracula} year={1931} />
+      <div><table><th><h1>Filmy</h1></th><tr>
+      {movies.map((movie, index) => (
+        <td>
+          <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year} />
+        </td>
+      ))}</tr>
       </table>
       </div>
       <hr></hr>
-      <div><table><h1>Książki</h1>
-      <Ksiazka name="Carmilla" imgsrc={carmilla} year={1872} pages={160} />
-      <Ksiazka name="Picture of Dorian Gray" imgsrc={dorian} year={1891} pages={268}/>
-      <Ksiazka name="Frankenstein" imgsrc={frank} year={1818} pages={237} />
+      <div><table><th><h1>Książki</h1></th><tr>
+      {books.map((book, index) => (
+        <td>
+          <Ksiazka key={index} name={book.name} imgsrc={book.imgsrc} year={book.year} pages={book.pages} />
+        </td>
+      ))}</tr>
       </table>
       </div>
       <hr></hr>
 
-      <div><table><h1>Albumy</h1>
-      <Album name="Merveilles" imgsrc={merv} band="Malice Mizer" year={1998} genre="v-kei" songs={[
-        {name: "De Merveilles", len:"1:07"},
-        {name: "Syunikiss (Nidome no Aitō)", len:"4:14"},
-        {name: "De Merveilles", len:"1:07"}
-      ]} />
-
-      <Album name="Blackwater Park" imgsrc={park} band="Opeth" year={2001} genre="progressive metal" songs={[
-        {name: "The Leper Affinity", len:"10:23"},
-        {name: "Bleak", len:"9:15"},
-        {name: "Harvest", len:"5:58"},
-        {name: "The Drapery Falls", len:"10:52"}
-      ]} />
+      <div><table><th><h1>Albumy</h1></th><tr>
+       {albums.map((album, index) => (
+        <td>
+          <Album key={index} name={album.name} imgsrc={album.imgsrc} band={album.band} year={album.year} genre={album.genre} songs={album.songs} />
+        </td>
+      ))}</tr>
+      </table>
+      </div>
       
-      </table>
-      </div>
+
+      
     </>
   )
 }

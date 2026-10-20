@@ -69,7 +69,8 @@ p {
 }
 
 img{
-  width: 20vw;
+  height:30vh;
+  width: auto;
 }
 hr{
   width: 100%;
@@ -80,6 +81,10 @@ table{
   border: 5px solid var(--border);
 
   margin: 0 auto;
-  padding: 0 5vw 0 5vw;
+  padding: 2vh 5vw 2vh 5vw;
   background-color: antiquewhite;
+}
+table td{
+  border: 2px dotted var(--border);
+  padding: 0.5vh 1vw 0.5vh 1vw;
 }
