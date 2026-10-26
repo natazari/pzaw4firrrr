@@ -1,3 +1,8 @@
+import { useState } from "react";
+// import Alert from 'bootstrap/js/dist/alert';
+
+
+// import { Tooltip, Toast, Popover } from 'bootstrap';
 import bride from "./assets/corpse_bride.jpg";
 import shrek from "./assets/shrek.jpg";
 import dracula from "./assets/dracula.jpg";
@@ -6,11 +11,15 @@ import dorian from "./assets/dorian.jpg";
 import frank from "./assets/frankensstein.jpg";
 import merv from "./assets/Merveilles.jpg";
 import park from "./assets/Blackwaterpark.jpg";
+import wind from "./assets/windrises.jpg";
+import marnie from "./assets/marnie.jpg";
+
 
 interface Film{
   name: string;
   imgsrc: string;
   year: number;
+  rating: number;
 }
 
 interface Ksiazka{
@@ -19,7 +28,7 @@ interface Ksiazka{
   year: number;
   pages: number;
 }
-interface propsAlbum{
+interface Album{
   name: string;
   imgsrc: string;
   band: string;
@@ -35,19 +44,23 @@ interface propsSong{
 }
 
 let movies:Film[] = [
-  {name: "Corpse Bride", imgsrc: bride, year: 2005},
-  {name: "Shrek", imgsrc: shrek, year: 2001},
-  {name: "Dracula", imgsrc: dracula, year: 1931},
-  {name: "Shrek", imgsrc: shrek, year: 2001}
+  {name: "Corpse Bride", imgsrc: bride, year: 2005, rating: 8},
+  {name: "Shrek", imgsrc: shrek, year: 2001, rating: 9},
+  {name: "Dracula", imgsrc: dracula, year: 1931, rating: 7},
+  {name: "Shrek", imgsrc: shrek, year: 2001, rating: 9},
+  {name: "The Wind Rises", imgsrc: wind, year: 2013, rating: 9},
+  {name: "When Marnie was there", imgsrc: marnie, year: 2014, rating: 8}
 ]
 
 let books:Ksiazka[]= [
-  {name: "Carmilla", imgsrc: carmilla, year: 1872, pages: 160},
+  {name:"Carmilla", imgsrc: carmilla, year: 1872, pages: 160},
   {name:"The Picture of Dorian Gray", imgsrc: dorian, year: 1891, pages: 268},
-  {name:"Frankenstein", imgsrc: frank, year: 1818, pages: 237}
+  {name:"Frankenstein", imgsrc: frank, year: 1818, pages: 237},
+  {name:"Abraham", imgsrc: frank, year: 1700, pages: 237},
+  {name:"Ceasar", imgsrc: dorian, year: 2018, pages: 268},
 ]
 
-let albums:propsAlbum[] = [
+let albums:Album[] = [
   {name: "Merveilles", imgsrc: merv, band: "Malice Mizer", year: 1998, genre: "v-kei", songs:[
     {name: "De Merveilles", len:"1:07"},
     {name: "Syunikiss (Nidome no Aitō)", len:"4:14"},
@@ -58,25 +71,53 @@ let albums:propsAlbum[] = [
     {name: "Bleak", len:"9:15"},
     {name: "Harvest", len:"5:58"},
     {name: "The Drapery Falls", len:"10:52"}
+  ]},
+  {name: "Steel Ball Run outro", imgsrc: park, band: "JOJO", year: 2026, genre: "nonexistent", songs:[
+   
   ]}
 ]
+//  const showHide = ()=>{
+//   if(useState(true)){
+//     useState(false);
+//   }else useState(true);
+//  }
 
-function Film({name, imgsrc, year}:Film ) {
 
-    return (
+
+function Film({name, imgsrc, year, rating}:Film ) {
+
+  
+if (rating>=8) {
+     return (
     <>
       <div>
         <img src = {imgsrc}></img>
         <h3>{name}</h3>
         <p>{year}</p>
+        <p>Rating: {rating}</p>
+        <p><i>Polecany</i></p>
+       
+      </div>
+    </>
+  );
+  }else{return (
+    <>
+      <div>
+        <img src = {imgsrc}></img>
+        <h3>{name}</h3>
+        <p>{year}</p>
+        <p>Rating: {rating}</p>
        
       </div>
     </>
   )
+  
+}
+
   }
 
   function Ksiazka({name, imgsrc, year, pages}:Ksiazka ) {
-
+  if (year<2000) {
     return (
     <>
       <div>
@@ -84,14 +125,47 @@ function Film({name, imgsrc, year}:Film ) {
         <img src = {imgsrc}></img>
         <h3>{name}</h3>
         <p>{year}</p>
+        <p><i>Klasyk</i></p>
         <p>Liczba stron: {pages}</p>
       </div>
     </>
   )
-  }
+  }else{
+    return (
+    <>
+      <div>
+        
+        <img src = {imgsrc}></img>
+        <h3>{name}</h3>
+        <p>{year}</p>
+        
+        <p>Liczba stron: {pages}</p>
+      </div>
+    </>
+  )
+  }}
 
-   function Album({name, imgsrc, band, genre, year, songs }:propsAlbum ) {
+   function Album({name, imgsrc, band, genre, year, songs }:Album ) {
+if(songs.length <1){
+return (
+    <>
+      <div>
 
+        <img src = {imgsrc}></img>
+        <h3>{name}</h3>
+        <h3>{band}</h3>
+
+        <p>{genre}</p>
+        <p>{year}</p>
+
+        <h4>Brak utworów://///</h4>
+
+       
+        
+      </div>
+    </>
+  )
+}else{
     return (
     <>
       <div>
@@ -117,8 +191,8 @@ function Film({name, imgsrc, year}:Film ) {
         
       </div>
     </>
-  )
-  }
+  )}
+    }
 
   function Piosenka({name, len}:propsSong ) {
 
@@ -139,42 +213,107 @@ function Film({name, imgsrc, year}:Film ) {
   
 
 function App() {
- 
+ const sortFilmName = movies.toSorted((a: Film, b: Film) => {
+    return a.name.localeCompare(b.name);
+});
 
+// const sortKsiazkaName = books.toSorted((a: Ksiazka, b: Ksiazka) => {
+//    return a.name.localeCompare(b.name);
+// });
+
+// const sortKsiazkaName = [...books].sort((a, b) =>
+//   a.name.localeCompare(b.name, "pl", { sensitivity: "base" })
+// );
+
+const sortKsiazkaName = [...books].sort((a, b) =>
+  a.name.localeCompare(b.name, "en", { sensitivity: "base" })
+);
+
+const sortAlbumName = albums.sort((a: Album, b: Album) => {
+    return a.name.localeCompare(b.name);
+});
+const sortFilmRating = sortFilmName.sort((a: Film, b: Film) => {
+    return b.rating - a.rating;
+});
+
+const sortKsiazkayearnew = sortKsiazkaName.sort((a: Ksiazka, b: Ksiazka) => {
+    return b.year - a.year;
+});
+
+const sortFilmName2 = sortFilmRating.toSorted((a: Film, b: Film) => {
+    return a.name.localeCompare(b.name);
+});
+
+const moviesAfter2010: Film[] = movies.filter((movie) => movie.year > 2010);
+
+
+ const [moviesOpen, setMoviesOpen] = useState(false);
+
+ const [movies2Open, setMovies2Open] = useState(false);
+
+ const [booksOpen, setBooksOpen] = useState(false);
+
+ const [books2Open, setBooks2Open] = useState(false);
+
+ const [albumsOpen, setAlbumsOpen] = useState(false);
 
   return (
-    <>
-      <div><table><th><h1>Filmy</h1></th><tr>
-      {movies.map((movie, index) => (
-        <td>
-          <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year} />
-        </td>
-      ))}</tr>
-      </table>
+    <><div className="whole">
+      <h1  onClick={() => {setMoviesOpen(!moviesOpen)}}>Filmy{moviesOpen ?<span>⏵</span>: <span>⏷</span>}</h1>
+       <div className="items-container">
+     {moviesOpen && sortFilmRating.map((movie, index) => (
+      <div className="item">
+        
+          <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year}  rating={movie.rating} />
       </div>
-      <hr></hr>
-      <div><table><th><h1>Książki</h1></th><tr>
-      {books.map((book, index) => (
-        <td>
+    ))}
+  </div>
+</div>
+  <hr />
+     <div className="whole">
+      <h1  onClick={() => {setMovies2Open(!movies2Open)}}>Filmy po 2010r{movies2Open ?<span>⏵</span>: <span>⏷</span>}</h1>
+      <div className="items-container">
+       {movies2Open &&moviesAfter2010.map((movie, index) => (
+       
+          <div className="item">
+          <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year}  rating={movie.rating}/>
+        </div>
+    ))}
+  </div>
+</div>
+  <hr /><div className="whole">
+      
+      <h1  onClick={() => {setBooksOpen(!booksOpen)}}>Książki{booksOpen ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
+      {booksOpen && sortKsiazkaName.map((book, index) => (
+        <div className="item">
           <Ksiazka key={index} name={book.name} imgsrc={book.imgsrc} year={book.year} pages={book.pages} />
-        </td>
-      ))}</tr>
-      </table>
-      </div>
-      <hr></hr>
+        </div>
+    ))}
+  </div>
+</div>
+  <hr />
+  <div className="whole">
+      
+      <h1  onClick={() => {setBooks2Open(!books2Open)}}>Książki od najnowszej{books2Open ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
+      {books2Open && sortKsiazkayearnew.map((book, index) => (
+        <div className="item">
+          <Ksiazka key={index} name={book.name} imgsrc={book.imgsrc} year={book.year} pages={book.pages} />
+        </div>
+    ))}
+  </div>
+</div>
+  <hr /><div className="whole">
 
-      <div><table><th><h1>Albumy</h1></th><tr>
-       {albums.map((album, index) => (
-        <td>
+      <h1>Albumy</h1><div className="items-container">
+       {sortAlbumName.map((album, index) => (
+        <div className="item">
           <Album key={index} name={album.name} imgsrc={album.imgsrc} band={album.band} year={album.year} genre={album.genre} songs={album.songs} />
-        </td>
-      ))}</tr>
-      </table>
+        
       </div>
-      
-
-      
-    </>
+    ))}
+  </div>
+   </div>
+</>
   )
 }
 

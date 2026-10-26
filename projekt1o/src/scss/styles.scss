@@ -1,0 +1,27 @@
+@import "bootstrap/scss/bootstrap";
+
+$bg-color: #2a0429;
+$text-color: #ffcb94;
+$accent-color: #aa3bff;
+
+
+.card {
+  background-color: $bg-color;
+  color: $text-color;
+  padding: 20px;
+  border: 2px solid $accent-color;
+  border-radius: 12px;
+
+  h2 {
+    color: white;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  &:hover {
+    background-color: lighten($bg-color, 8%);
+  }
+}

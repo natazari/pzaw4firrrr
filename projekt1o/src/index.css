@@ -56,6 +56,8 @@ h1 {
   font-size: 56px;
   letter-spacing: -1.68px;
   margin: 32px 0;
+  text-align: center;
+  width: 100%;
 }
 h2 {
   font-size: 24px;
@@ -68,23 +70,35 @@ p {
   margin: 0;
 }
 
-img{
-  height:30vh;
-  width: auto;
+img {
+  max-width: 100%;
+  height: auto;
+  max-height: 30vh;
+  object-fit: contain;
 }
 hr{
   width: 100%;
   color: var(--border);
 }
-table{
-
-  border: 5px solid var(--border);
-
-  margin: 0 auto;
-  padding: 2vh 5vw 2vh 5vw;
-  background-color: antiquewhite;
+.items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
-table td{
+
+.item {
+  flex: 0 1 220px;
+  min-width: 0;
   border: 2px dotted var(--border);
-  padding: 0.5vh 1vw 0.5vh 1vw;
+  padding: 12px;
+  box-sizing: border-box;
+ 
+}
+.whole{
+ background-color: antiquewhite;
+ border: 2px solid var(--border);
 }
