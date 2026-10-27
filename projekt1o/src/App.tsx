@@ -1,7 +1,5 @@
 import { useState } from "react";
 // import Alert from 'bootstrap/js/dist/alert';
-
-
 // import { Tooltip, Toast, Popover } from 'bootstrap';
 import bride from "./assets/corpse_bride.jpg";
 import shrek from "./assets/shrek.jpg";
@@ -76,17 +74,9 @@ let albums:Album[] = [
    
   ]}
 ]
-//  const showHide = ()=>{
-//   if(useState(true)){
-//     useState(false);
-//   }else useState(true);
-//  }
-
-
 
 function Film({name, imgsrc, year, rating}:Film ) {
 
-  
 if (rating>=8) {
      return (
     <>
@@ -159,9 +149,6 @@ return (
         <p>{year}</p>
 
         <h4>Brak utworów://///</h4>
-
-       
-        
       </div>
     </>
   )
@@ -198,72 +185,56 @@ return (
 
     return (
     <>
-     
         <td><h5>{name}</h5></td>
-        
      <td>  <p>{len}</p></td> 
-       
-      
+
     </>
   )
   }
 
 
+function App() {
+
+  // movies.sort(
+  // (a, b) =>  a.name.localeCompare(b.name));
+
+  const sortFilmName = [...movies].sort( (a, b) => a.name.localeCompare(b.name));
+
+  const sortKsiazkaName = [...books].sort( (a, b) => a.name.localeCompare(b.name));
+
+  const sortAlbumName = [...albums].sort( (a, b) => a.name.localeCompare(b.name));
+ 
+  const sortFilmRating = [...sortFilmName].sort( (a, b) => b.rating - a.rating);
+
+  const sortKsiazkaYear = [...sortKsiazkaName].sort( (a, b) => b.year - a.year);
+
 
   
 
-function App() {
- const sortFilmName = movies.toSorted((a: Film, b: Film) => {
-    return a.name.localeCompare(b.name);
-});
-
-// const sortKsiazkaName = books.toSorted((a: Ksiazka, b: Ksiazka) => {
-//    return a.name.localeCompare(b.name);
-// });
-
-// const sortKsiazkaName = [...books].sort((a, b) =>
-//   a.name.localeCompare(b.name, "pl", { sensitivity: "base" })
-// );
-
-const sortKsiazkaName = [...books].sort((a, b) =>
-  a.name.localeCompare(b.name, "en", { sensitivity: "base" })
-);
-
-const sortAlbumName = albums.sort((a: Album, b: Album) => {
-    return a.name.localeCompare(b.name);
-});
-const sortFilmRating = sortFilmName.sort((a: Film, b: Film) => {
-    return b.rating - a.rating;
-});
-
-const sortKsiazkayearnew = sortKsiazkaName.sort((a: Ksiazka, b: Ksiazka) => {
-    return b.year - a.year;
-});
-
-const sortFilmName2 = sortFilmRating.toSorted((a: Film, b: Film) => {
-    return a.name.localeCompare(b.name);
-});
-
-const moviesAfter2010: Film[] = movies.filter((movie) => movie.year > 2010);
+const moviesAfter2010: Film[] = sortFilmName.filter((movie) => movie.year > 2010);
 
 
  const [moviesOpen, setMoviesOpen] = useState(false);
-
  const [movies2Open, setMovies2Open] = useState(false);
-
  const [booksOpen, setBooksOpen] = useState(false);
-
  const [books2Open, setBooks2Open] = useState(false);
-
  const [albumsOpen, setAlbumsOpen] = useState(false);
+  const [albums2Open, setAlbums2Open] = useState(false);
+
+ const maxAlbum = sortAlbumName.reduce((prev, current) => (prev.songs.length > current.songs.length ? prev : current));
+ console.log(maxAlbum);
+
+ let maxAlbumy:Album[] = [];
+ maxAlbumy.push(maxAlbum);
+
 
   return (
-    <><div className="whole">
+    <>
+    <div className="container-fluid"><div className="whole">
       <h1  onClick={() => {setMoviesOpen(!moviesOpen)}}>Filmy{moviesOpen ?<span>⏵</span>: <span>⏷</span>}</h1>
        <div className="items-container">
      {moviesOpen && sortFilmRating.map((movie, index) => (
-      <div className="item">
-        
+      <div className="card">
           <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year}  rating={movie.rating} />
       </div>
     ))}
@@ -275,7 +246,7 @@ const moviesAfter2010: Film[] = movies.filter((movie) => movie.year > 2010);
       <div className="items-container">
        {movies2Open &&moviesAfter2010.map((movie, index) => (
        
-          <div className="item">
+          <div className="card">
           <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year}  rating={movie.rating}/>
         </div>
     ))}
@@ -285,7 +256,7 @@ const moviesAfter2010: Film[] = movies.filter((movie) => movie.year > 2010);
       
       <h1  onClick={() => {setBooksOpen(!booksOpen)}}>Książki{booksOpen ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
       {booksOpen && sortKsiazkaName.map((book, index) => (
-        <div className="item">
+        <div className="card">
           <Ksiazka key={index} name={book.name} imgsrc={book.imgsrc} year={book.year} pages={book.pages} />
         </div>
     ))}
@@ -295,8 +266,8 @@ const moviesAfter2010: Film[] = movies.filter((movie) => movie.year > 2010);
   <div className="whole">
       
       <h1  onClick={() => {setBooks2Open(!books2Open)}}>Książki od najnowszej{books2Open ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
-      {books2Open && sortKsiazkayearnew.map((book, index) => (
-        <div className="item">
+      {books2Open && sortKsiazkaYear.map((book, index) => (
+        <div className="card">
           <Ksiazka key={index} name={book.name} imgsrc={book.imgsrc} year={book.year} pages={book.pages} />
         </div>
     ))}
@@ -304,14 +275,27 @@ const moviesAfter2010: Film[] = movies.filter((movie) => movie.year > 2010);
 </div>
   <hr /><div className="whole">
 
-      <h1>Albumy</h1><div className="items-container">
-       {sortAlbumName.map((album, index) => (
-        <div className="item">
+     <h1  onClick={() => {setAlbumsOpen(!albumsOpen)}}>Albumy{albumsOpen ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
+        {albumsOpen && sortAlbumName.map((album, index) => (
+        <div className="card">
           <Album key={index} name={album.name} imgsrc={album.imgsrc} band={album.band} year={album.year} genre={album.genre} songs={album.songs} />
         
       </div>
     ))}
   </div>
+   </div>
+    <hr /><div className="whole">
+
+      <h1  onClick={() => {setAlbums2Open(!albums2Open)}}>Albumy najwiecej piosenek{albums2Open ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
+        {albums2Open && maxAlbumy.map((album, index) => (
+        <div className="card">
+          <Album key={index} name={album.name} imgsrc={album.imgsrc} band={album.band} year={album.year} genre={album.genre} songs={album.songs} />
+        
+      </div>
+    ))} 
+   
+  </div>
+   </div>
    </div>
 </>
   )

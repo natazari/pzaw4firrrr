@@ -1,16 +1,58 @@
 @import "bootstrap/scss/bootstrap";
 
-$bg-color: #2a0429;
+$bg-color: #58075148;
 $text-color: #ffcb94;
 $accent-color: #aa3bff;
 
+$text: #531700;
+ $text-h: #08060d;
+  $bg: #2a0429;
+  $border: #ffcb94;
 
+  $accent: #342306;
+  $accent-bg: rgba(170, 59, 255, 0.1);
+  $accent-border: rgba(170, 59, 255, 0.5);
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+   background-color: var($bg);
+
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.container-fluid{
+  // background-color: var($bg);
+  text-align:center;
+  
+
+.items-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  max-height: 30vh;
+  object-fit: contain;
+}
 .card {
+flex: 0 1 220px;
+  min-width: 0;
+  border: 2px dotted var($border);
+  padding: 12px;
+  box-sizing: border-box;
   background-color: $bg-color;
-  color: $text-color;
-  padding: 20px;
-  border: 2px solid $accent-color;
-  border-radius: 12px;
 
   h2 {
     color: white;
@@ -24,4 +66,12 @@ $accent-color: #aa3bff;
   &:hover {
     background-color: lighten($bg-color, 8%);
   }
+}
+
+.whole{
+ background-color: antiquewhite;
+ border: 2px solid var($border);
+}
+
+
 }
