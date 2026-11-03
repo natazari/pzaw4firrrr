@@ -166,14 +166,16 @@ return (
 
         <h4>Lista utworów:</h4>
 
-        <table>
+        <table  className="table table-striped table-hover">
+           <tbody>
           {songs.map((song, index)=>(
             
-            <tr key={index}>
+            <tr key={index} onClick={() => handleSongClick(song.name, name)}>
+             
               <Piosenka name={song.name} len={song.len}/>
             
             </tr>
-          ))}
+          ))}</tbody>
         </table>
         
       </div>
@@ -192,6 +194,14 @@ return (
   )
   }
 
+   function handleSongClick(songName: string,albumName: string){
+    console.log("wybrano: "+songName, albumName);
+     /* //funkcja normalna wywoluje funlkcje podczas renderowania a strzałkowa wykona sie dopiero po kliknieciu */
+   }
+
+   function handleMovieSearch() {
+  
+}
 
 function App() {
 
@@ -222,7 +232,7 @@ const moviesAfter2010: Film[] = sortFilmName.filter((movie) => movie.year > 2010
   const [albums2Open, setAlbums2Open] = useState(false);
 
  const maxAlbum = sortAlbumName.reduce((prev, current) => (prev.songs.length > current.songs.length ? prev : current));
- console.log(maxAlbum);
+//  console.log(maxAlbum);
 
  let maxAlbumy:Album[] = [];
  maxAlbumy.push(maxAlbum);
@@ -230,12 +240,22 @@ const moviesAfter2010: Film[] = sortFilmName.filter((movie) => movie.year > 2010
 
   return (
     <>
-    <div className="container-fluid"><div className="whole">
+    <div className="container-fluid"><div className="whole" >
       <h1  onClick={() => {setMoviesOpen(!moviesOpen)}}>Filmy{moviesOpen ?<span>⏵</span>: <span>⏷</span>}</h1>
        <div className="items-container">
+        <input id="movie-search" type="text" className="form-control" placeholder="Wpisz tytuł" onChange{() => handleMovieSearch()}/>
      {moviesOpen && sortFilmRating.map((movie, index) => (
-      <div className="card">
-          <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year}  rating={movie.rating} />
+      <div className="card" onClick={() => {
+    console.log("wybrano: "+movie.name);
+  }}>
+          <Film key={index} name={movie.name} imgsrc={movie.imgsrc} year={movie.year} rating={movie.rating} />
+          <button
+              onClick={() => {
+                console.log("pokaz szczegoly dla "+movie.name);
+              }}
+            >
+              Pokaż szczegóły
+            </button>
       </div>
     ))}
   </div>
@@ -255,6 +275,7 @@ const moviesAfter2010: Film[] = sortFilmName.filter((movie) => movie.year > 2010
   <hr /><div className="whole">
       
       <h1  onClick={() => {setBooksOpen(!booksOpen)}}>Książki{booksOpen ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
+        <input id="book-search" type="text" className="form-control" placeholder="Wpisz tytuł"/>
       {booksOpen && sortKsiazkaName.map((book, index) => (
         <div className="card">
           <Ksiazka key={index} name={book.name} imgsrc={book.imgsrc} year={book.year} pages={book.pages} />
@@ -273,9 +294,14 @@ const moviesAfter2010: Film[] = sortFilmName.filter((movie) => movie.year > 2010
     ))}
   </div>
 </div>
-  <hr /><div className="whole">
+  <hr />
+ 
+  
+  
+  <div className="whole">
 
      <h1  onClick={() => {setAlbumsOpen(!albumsOpen)}}>Albumy{albumsOpen ?<span>⏵</span>: <span>⏷</span>}</h1><div className="items-container">
+      <input id="album-search" type="text" className="form-control" placeholder="Wpisz tytuł"/>
         {albumsOpen && sortAlbumName.map((album, index) => (
         <div className="card">
           <Album key={index} name={album.name} imgsrc={album.imgsrc} band={album.band} year={album.year} genre={album.genre} songs={album.songs} />
